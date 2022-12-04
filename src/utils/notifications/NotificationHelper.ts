@@ -1,8 +1,7 @@
 import notifee, { DisplayedNotification, Notification } from '@notifee/react-native'
 // @ts-ignore
 import BadgeAndroid from 'react-native-android-badge'
-
-import { BadgeAndroidStore } from '../../store'
+import { BadgeAndroidStore } from 'src/store'
 
 export async function setCategories() {
   await notifee.setNotificationCategories([
@@ -73,6 +72,9 @@ export async function cancel({ notification, isInput }: cancelT) {
     await notifee.cancelNotification(id)
     updateAndroidBadgeCount({ type: 'decrement' })
     await notifee.decrementBadgeCount()
+    setTimeout(async () => {
+      await notifee.cancelNotification(id)
+    }, 1500)
   }
 }
 

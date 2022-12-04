@@ -7,9 +7,8 @@ import {
   updateAndroidBadgeCount,
 } from './NotificationHelper'
 
-import { isIos } from '../../constants'
-
 const channelId = 'replyAndroid'
+const groupId = 'new-comment'
 
 export async function replyNotification(
   notification: FirebaseMessagingTypes.RemoteMessage,
@@ -26,8 +25,8 @@ export async function replyNotification(
   notifee.incrementBadgeCount()
 
   await notifee.displayNotification({
-    title: isIos ? title.replace(/(<([^>]+)>)/gi, '') : title,
-    body: isIos ? body.replace(/(<([^>]+)>)/gi, '') : body,
+    title,
+    body,
     data: notification.data,
     id: nanoid(10),
     android: {
@@ -51,7 +50,7 @@ export async function replyNotification(
       pressAction: {
         id: 'default',
       },
-      groupId: 'new-comment',
+      groupId,
     },
     ios: {
       categoryId: 'reply',
@@ -60,26 +59,28 @@ export async function replyNotification(
   updateAndroidCommentNotificationGroup()
 }
 
+const groupNotificationId = 'count-of-messages'
+
 export const updateAndroidCommentNotificationGroup = async () => {
   const notifications = await notifee.getDisplayedNotifications()
 
-  const group = getNotificationsByGroupAndroid(notifications, 'new-comment')
+  const group = getNotificationsByGroupAndroid(notifications, groupId)
   const messCount = group.length
 
   if (messCount > 0) {
     await notifee.displayNotification({
       title: 'Comments',
       subtitle: `${messCount} new comment${messCount > 1 ? 's' : ''}`,
-      id: 'count-of-messages',
+      id: groupNotificationId,
       android: {
         channelId,
         groupSummary: true,
         color: '#1EE4EC',
         smallIcon: 'ic_notifee_cube',
-        groupId: 'new-comment',
+        groupId,
       },
     })
   } else {
-    await notifee.cancelNotification('count-of-messages')
+    await notifee.cancelNotification(groupNotificationId)
   }
 }

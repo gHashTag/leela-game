@@ -125,8 +125,8 @@ const PlansDetailScreen = observer(({ navigation, route }: PlansDetailScreenT) =
               textStyle={h3}
             />
           )}
-          {report && <CreatePost plan={id} />}
-          <Space height={!report ? vs(70) : 20} />
+          {!report && <CreatePost plan={id} />}
+          <Space height={report ? vs(70) : 20} />
         </ScrollView>
       </KeyboardContainer>
     </AppContainer>

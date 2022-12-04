@@ -45,7 +45,7 @@ i18next
     defaultNS: 'common',
     lng: lang,
     fallbackLng: 'en',
-    debug: __DEV__,
+    debug: false, // __DEV__,
     interpolation: {
       escapeValue: true,
     },

@@ -6,19 +6,19 @@ import {
   updateAndroidBadgeCount,
 } from 'src/utils/notifications/NotificationHelper'
 
-const channelId = 'newPostAdminAndroid'
-const groupId = 'new-post'
+const channelId = 'invitationAndroid'
+const groupId = 'invitation'
 
-export async function newPostAdminNotification(
-  notification: FirebaseMessagingTypes.RemoteMessage,
-) {
+export async function invitationNotification({
+  data,
+}: FirebaseMessagingTypes.RemoteMessage) {
   await notifee.createChannel({
     id: channelId,
-    name: 'New post admin channel',
+    name: 'Invitation channel',
     badge: false,
   })
 
-  const { title, body } = notification.data || {}
+  const { title, body } = data || {}
 
   updateAndroidBadgeCount({ type: 'increment' })
   notifee.incrementBadgeCount()
@@ -26,7 +26,7 @@ export async function newPostAdminNotification(
   await notifee.displayNotification({
     title,
     body,
-    data: notification.data,
+    data,
     id: nanoid(10),
     android: {
       channelId,
@@ -35,44 +35,30 @@ export async function newPostAdminNotification(
       largeIcon: require('../../../assets/icons/512.png'),
       badgeIconType: AndroidBadgeIconType.SMALL,
       importance: AndroidImportance.LOW,
-      actions: [
-        {
-          title: 'Approve',
-          pressAction: {
-            id: 'approve',
-          },
-        },
-        {
-          title: 'Discard',
-          pressAction: {
-            id: 'discard',
-          },
-        },
-      ],
       pressAction: {
         id: 'default',
       },
       groupId,
     },
     ios: {
-      categoryId: 'new-post-admin',
+      categoryId: 'game-invite',
     },
   })
-  updateAndroidNewPostAdminNotificationGroup()
+  updateAndroidInvitationNotificationGroup()
 }
 
-const groupNotificationId = 'count-of-new-posts'
+const groupNotificationId = 'count-of-invitation'
 
-export const updateAndroidNewPostAdminNotificationGroup = async () => {
+export const updateAndroidInvitationNotificationGroup = async () => {
   const notifications = await notifee.getDisplayedNotifications()
 
   const group = getNotificationsByGroupAndroid(notifications, groupId)
-  const postsCount = group.length
+  const invitationCount = group.length
 
-  if (postsCount > 0) {
+  if (invitationCount > 0) {
     await notifee.displayNotification({
       title: 'Check new posts',
-      subtitle: `${postsCount} new post${postsCount > 1 ? 's' : ''}`,
+      subtitle: `${invitationCount} new post${invitationCount > 1 ? 's' : ''}`,
       id: groupNotificationId,
       android: {
         channelId,
