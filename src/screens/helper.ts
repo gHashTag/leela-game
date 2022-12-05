@@ -1,4 +1,3 @@
-import notifee from '@notifee/react-native'
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { FirebaseDatabaseTypes, firebase } from '@react-native-firebase/database'
 import firestore from '@react-native-firebase/firestore'
@@ -11,13 +10,11 @@ import {
   OpenUpdateVersionModal,
   accountHasBanAlert,
   captureException,
-  navRef,
   navigate,
 } from 'src/constants'
 import i18next, { flagEmoji, lang } from 'src/i18n'
 import { MessagingStore, OnlinePlayer, actionsDice, fetchBusinesses } from 'src/store'
 import { HistoryT, UserT } from 'src/types'
-import { updateAndroidNewPostAdminNotificationGroup } from 'src/utils/notifications/newPostAdminNotification'
 
 import { version } from '../../package.json'
 
@@ -350,8 +347,10 @@ const onSignIn = async (
         if (!prof.isReported) {
           OpenPlanReportModal(prof.plan)
         } else if (MessagingStore.path) {
-          linkTo(MessagingStore.path)
-          MessagingStore.path = ''
+          setTimeout(() => {
+            linkTo(MessagingStore.path)
+            MessagingStore.path = ''
+          }, 0)
         }
         const reference = getFireBaseRef(`/online/${prof.owner}`)
         reference.set(true)

@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import Rate from 'react-native-rate'
 import { s, vs } from 'react-native-size-matters'
-
 import {
   Background,
   ButtonWithIcon,
@@ -16,11 +15,11 @@ import {
   Space,
   Spin,
   Text,
-} from '../../../components'
-import { useLeftTimeForStep } from '../../../hooks'
-import { DiceStore, OfflinePlayers, OnlinePlayer, actionsDice } from '../../../store'
-import { RootStackParamList, RootTabParamList } from '../../../types'
+} from 'src/components'
 import { trueBlue } from 'src/constants'
+import { useLeftTimeForStep } from 'src/hooks'
+import { DiceStore, OfflinePlayers, OnlinePlayer, actionsDice } from 'src/store'
+import { RootStackParamList, RootTabParamList } from 'src/types'
 
 type navigation = NativeStackNavigationProp<
   RootTabParamList & RootStackParamList,

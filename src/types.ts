@@ -61,6 +61,7 @@ export type RootStackParamList = {
   PLAN_REPORT_MODAL: {
     plan: number
   }
+  CREATE_INVITE_MODAL: undefined
   UPDATE_VERSION_MODAL: undefined
   CHANGE_INTENTION_SCREEN: {
     prevIntention?: string

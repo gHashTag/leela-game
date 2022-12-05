@@ -5,13 +5,14 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { observer } from 'mobx-react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, StyleSheet, View } from 'react-native'
+import prompt from 'react-native-prompt-android'
 import { s, vs } from 'react-native-size-matters'
 import { ButtonWithIcon } from 'src/components'
 import { openUrl } from 'src/constants'
-import { OnlinePlayer } from 'src/store'
+import { DiceStore, OnlinePlayer, sendInviteNotification } from 'src/store'
 import { RootTabParamList } from 'src/types'
 
-type navigation = NativeStackNavigationProp<RootTabParamList, 'TAB_BOTTOM_0'>
+type navigation = NativeStackNavigationProp<RootTabParamList, 'TAB_BOTTOM_4'>
 
 type PosterScreenT = {
   navigation: navigation
@@ -22,13 +23,38 @@ const PosterScreen = observer(({}: PosterScreenT) => {
     OnlinePlayer.getPoster()
   }, [])
 
+  const secondBtnVisible = DiceStore.online && OnlinePlayer.store.status === 'Admin'
   const { buttonColor, imgUrl, eventUrl } = OnlinePlayer.store.poster || {}
 
   const { t } = useTranslation()
 
+  const showSecondPrompt = (title: string) => {
+    prompt(
+      'Notification body',
+      undefined,
+      [{ text: 'Send', onPress: text => sendInviteNotification({ text, title }) }],
+      {
+        type: 'default',
+        cancelable: true,
+      },
+    )
+  }
+
+  const onSendAll = () => {
+    prompt(
+      'Notification title',
+      undefined,
+      [{ text: 'Next', onPress: title => showSecondPrompt(title) }],
+      {
+        type: 'default',
+        cancelable: true,
+      },
+    )
+  }
+
   return (
     <ImageBackground resizeMode="cover" source={{ uri: imgUrl }} style={img}>
-      <View style={styles.btnMoreContainer}>
+      <View style={[styles.btnMoreContainer, secondBtnVisible && styles.lessBottom]}>
         <BlurView blurType={'light'} blurAmount={10} style={styles.blurBackground} />
         <ButtonWithIcon
           title={t('assign')}
@@ -37,6 +63,15 @@ const PosterScreen = observer(({}: PosterScreenT) => {
           viewStyle={styles.btnMore}
           onPress={() => openUrl(eventUrl)}
         />
+        {secondBtnVisible && (
+          <ButtonWithIcon
+            title="Send a notification to everyone"
+            color={buttonColor || '#AA6100'}
+            h="h6"
+            viewStyle={styles.btnMore}
+            onPress={onSendAll}
+          />
+        )}
       </View>
     </ImageBackground>
   )
@@ -52,6 +87,7 @@ const styles = StyleSheet.create({
   },
   btnMore: {
     margin: s(5),
+    alignSelf: 'center',
   },
   btnMoreContainer: {
     position: 'absolute',
@@ -59,6 +95,7 @@ const styles = StyleSheet.create({
     borderRadius: s(10),
     bottom: vs(82),
     overflow: 'hidden',
+    textAlign: 'center',
   },
   blurBackground: {
     width: '100%',
@@ -69,6 +106,9 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     borderRadius: s(10),
     overflow: 'hidden',
+  },
+  lessBottom: {
+    bottom: vs(42),
   },
 })
 

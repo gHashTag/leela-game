@@ -10,11 +10,17 @@ import Orientation from 'react-native-orientation-locker'
 import SystemNavigationBar from 'react-native-system-navigation-bar'
 import { Fallback } from 'src/components'
 import { black, lightGray, navRef, white } from 'src/constants'
-import { useExitModal, useGameAndProfileIsOnline, useNetwork } from 'src/hooks'
+import {
+  useExitModal,
+  useGameAndProfileIsOnline,
+  useIsAdmin,
+  useNetwork,
+} from 'src/hooks'
 import { lang } from 'src/i18n'
 import {
   ActionsModal,
   ChangeIntention,
+  CreateInviteModal,
   DetailPostScreen,
   ExitPopup,
   GameScreen,
@@ -84,7 +90,7 @@ const Tab = observer(() => {
   useGameAndProfileIsOnline()
   useExitModal()
   useNetwork()
-
+  const isAdmin = useIsAdmin()
   return (
     <TabNavigator.Navigator
       tabBar={props => <TabBar {...props} />}
@@ -92,7 +98,7 @@ const Tab = observer(() => {
       screenOptions={{
         swipeEnabled: false,
       }}
-      initialRouteName={'TAB_BOTTOM_0'}
+      initialRouteName="TAB_BOTTOM_0"
     >
       <TabNavigator.Screen name="TAB_BOTTOM_0" component={GameScreen} />
       {DiceStore.online && (
@@ -103,7 +109,7 @@ const Tab = observer(() => {
         component={DiceStore.online ? ProfileScreen : OfflineProfileScreen}
       />
       <TabNavigator.Screen name="TAB_BOTTOM_3" component={OnlineGameScreen} />
-      {lang === 'ru' && (
+      {(lang === 'ru' || isAdmin) && (
         <TabNavigator.Screen name="TAB_BOTTOM_4" component={PosterScreen} />
       )}
     </TabNavigator.Navigator>
@@ -216,6 +222,7 @@ const App = () => {
             gestureEnabled: false,
           }}
         >
+          <Stack.Screen name="CREATE_INVITE_MODAL" component={CreateInviteModal} />
           <Stack.Screen name="UPDATE_VERSION_MODAL" component={UpdateVersionModal} />
           <Stack.Screen
             name="REPLY_MODAL"

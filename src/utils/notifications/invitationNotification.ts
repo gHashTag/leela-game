@@ -57,8 +57,8 @@ export const updateAndroidInvitationNotificationGroup = async () => {
 
   if (invitationCount > 0) {
     await notifee.displayNotification({
-      title: 'Check new posts',
-      subtitle: `${invitationCount} new post${invitationCount > 1 ? 's' : ''}`,
+      title: 'We want to invite you to:',
+      subtitle: `${invitationCount} new invitation${invitationCount > 1 ? 's' : ''}`,
       id: groupNotificationId,
       android: {
         channelId,

@@ -43,11 +43,11 @@ export const linking: LinkingOptions<RootStackParamList> = {
   },
   config: {
     screens: {
-      // MAIN: {
-      //   screens: {
-      //     TAB_BOTTOM_2: 'posts',
-      //   }
-      // },
+      MAIN: {
+        screens: {
+          TAB_BOTTOM_4: 'poster_screen',
+        },
+      },
       DETAIL_POST_SCREEN: {
         path: 'reply_detail/:postId',
       },

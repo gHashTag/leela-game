@@ -1,10 +1,11 @@
+// @ts-ignore
+import { ADMIN_SECRET_PASSWORD } from '@env'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import messaging from '@react-native-firebase/messaging'
 import { makeAutoObservable } from 'mobx'
 import { makePersistable } from 'mobx-persist-store'
-
-import { captureException } from '../constants'
+import { captureException } from 'src/constants'
 
 export const MessagingStore = makeAutoObservable({
   path: '',
@@ -68,4 +69,25 @@ const delTokenOnSignOut = async () => {
   }
 }
 
-export { saveTokenToDatabase, fetchBusinesses, delTokenOnSignOut }
+type sendInviteNotificationType = {
+  text: string
+  title: string
+}
+
+const sendInviteNotification = async ({ text, title }: sendInviteNotificationType) => {
+  const url = `https://leelachakra.com/sendInvite/?passwordForAccess=${ADMIN_SECRET_PASSWORD}&title=${title}&text=${text}`
+  try {
+    await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        passwordForAccess: ADMIN_SECRET_PASSWORD,
+        title,
+        text,
+      }),
+    })
+  } catch (error) {
+    captureException(error)
+  }
+}
+
+export { saveTokenToDatabase, fetchBusinesses, delTokenOnSignOut, sendInviteNotification }

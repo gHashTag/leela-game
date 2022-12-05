@@ -5,9 +5,8 @@ import { observer } from 'mobx-react'
 import { TouchableOpacity, View, useColorScheme } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ScaledSheet, ms, s } from 'react-native-size-matters'
-
-import { Tab } from './components'
-import { black, white } from './constants'
+import { Tab } from 'src/components'
+import { black, white } from 'src/constants'
 
 export default observer(function TabBar({ state, navigation }: MaterialTopTabBarProps) {
   const { index, routes } = state
