@@ -6,9 +6,6 @@ import { FieldValues, FormProvider, SubmitErrorHandler } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
-
-import { useSignIn } from './useSignIn'
-
 import {
   AppContainer,
   Button,
@@ -18,9 +15,11 @@ import {
   Loading,
   Space,
   TextError,
-} from '../../../components'
-import { H, W, black, goBack, white } from '../../../constants'
-import { RootStackParamList } from '../../../types'
+} from 'src/components'
+import { H, W, black, goBack, white } from 'src/constants'
+import { RootStackParamList } from 'src/types'
+
+import { useSignIn } from './useSignIn'
 
 type ProfileScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,

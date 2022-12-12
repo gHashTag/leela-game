@@ -9,13 +9,12 @@ export type RootStackParamList = {
   SIGN_IN: undefined
   FORGOT: { email: string }
   FORGOT_PASSWORD_SUBMIT: { email: string }
-  CONFIRM_SIGN_UP: { email: string }
+  EMAIL_VERIFY_SIGN_UP: { email: string }
   SIGN_UP_USERNAME: { email: string }
   USER: undefined
   USER_EDIT: {
     firstName: string
     lastName: string
-    email: string
   }
   PLAYRA_SCREEN: undefined
   MAIN: NavigatorScreenParams<RootTabParamList>

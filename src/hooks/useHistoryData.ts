@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
-
-import { DiceStore, OfflinePlayers, OnlinePlayer } from '../store'
+import { DiceStore, OfflinePlayers, OnlinePlayer } from 'src/store'
 
 export const useHistoryData = () => {
   const { t } = useTranslation()

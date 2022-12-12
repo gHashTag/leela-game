@@ -24,8 +24,9 @@ const maxImageWidth = ms(279, 0.5) + s(18)
 const curImageWidth = imageWidth >= maxImageWidth ? maxImageWidth : imageWidth
 
 export const GameBoard = observer(() => {
-  const arr = !DiceStore.online
-    ? OfflinePlayers.store.plans
+  const arr = useMemo(() => {
+    if (!DiceStore.online) {
+      return OfflinePlayers.store.plans
         .slice()
         .map(a => {
           return {
@@ -33,7 +34,8 @@ export const GameBoard = observer(() => {
           }
         })
         .slice(0, DiceStore.multi)
-    : [
+    } else {
+      return [
         {
           mainPlayer: true,
           plan: OnlinePlayer.store.plan,
@@ -42,6 +44,8 @@ export const GameBoard = observer(() => {
           return { plan: a.plan }
         }),
       ]
+    }
+  }, [])
 
   const scheme = useColorScheme()
 

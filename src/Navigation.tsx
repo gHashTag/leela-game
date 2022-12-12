@@ -44,7 +44,7 @@ import {
   WelcomeScreen,
 } from 'src/screens'
 import {
-  ConfirmSignUp,
+  EmailVerifySignUp,
   Forgot,
   ForgotPassSubmit,
   Hello,
@@ -169,7 +169,7 @@ const App = () => {
           <Stack.Screen name="SIGN_UP" component={SignUp} />
           <Stack.Screen name="SIGN_UP_USERNAME" component={SignUpUsername} />
           <Stack.Screen name="SIGN_UP_AVATAR" component={SignUpAvatar} />
-          <Stack.Screen name="CONFIRM_SIGN_UP" component={ConfirmSignUp} />
+          <Stack.Screen name="EMAIL_VERIFY_SIGN_UP" component={EmailVerifySignUp} />
         </Stack.Group>
 
         <Stack.Screen name="WELCOME_SCREEN" component={WelcomeScreen} />

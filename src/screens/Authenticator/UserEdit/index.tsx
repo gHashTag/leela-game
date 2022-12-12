@@ -9,8 +9,6 @@ import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-fo
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
-import * as yup from 'yup'
-
 import {
   AppContainer,
   Button,
@@ -18,10 +16,11 @@ import {
   KeyboardContainer,
   Loading,
   Space,
-} from '../../../components'
-import { H, W, black, goBack, white } from '../../../constants'
-import { updateProfName } from '../../../screens/helper'
-import { RootStackParamList } from '../../../types'
+} from 'src/components'
+import { H, W, black, goBack, white } from 'src/constants'
+import { updateProfName } from 'src/screens/helper'
+import { RootStackParamList } from 'src/types'
+import * as yup from 'yup'
 
 type ProfileScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,

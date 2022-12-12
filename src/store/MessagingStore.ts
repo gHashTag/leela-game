@@ -6,6 +6,7 @@ import messaging from '@react-native-firebase/messaging'
 import { makeAutoObservable } from 'mobx'
 import { makePersistable } from 'mobx-persist-store'
 import { captureException } from 'src/constants'
+import { getUid } from 'src/screens/helper'
 
 export const MessagingStore = makeAutoObservable({
   path: '',
@@ -15,28 +16,6 @@ makePersistable(MessagingStore, {
   name: 'MessagingStore',
   properties: ['path'],
 })
-
-const fetchBusinesses = () => {
-  const requestUserPermission = async () => {
-    const authStatus = await messaging().requestPermission()
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL
-
-    if (enabled) {
-      messaging()
-        .getToken()
-        .then(token => {
-          return saveTokenToDatabase(token)
-        })
-
-      return messaging().onTokenRefresh(token => {
-        saveTokenToDatabase(token)
-      })
-    }
-  }
-  requestUserPermission()
-}
 
 const saveTokenToDatabase = async (token: string) => {
   const userUid = auth().currentUser?.uid
@@ -55,7 +34,7 @@ const saveTokenToDatabase = async (token: string) => {
 }
 
 const delTokenOnSignOut = async () => {
-  const userUid = auth().currentUser?.uid
+  const userUid = getUid()
   try {
     const token = await messaging().getToken()
     await firestore()
@@ -90,4 +69,4 @@ const sendInviteNotification = async ({ text, title }: sendInviteNotificationTyp
   }
 }
 
-export { saveTokenToDatabase, fetchBusinesses, delTokenOnSignOut, sendInviteNotification }
+export { saveTokenToDatabase, delTokenOnSignOut, sendInviteNotification }

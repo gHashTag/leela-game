@@ -15,8 +15,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
-import * as yup from 'yup'
-
 import {
   AppContainer,
   Button,
@@ -24,12 +22,13 @@ import {
   KeyboardContainer,
   Loading,
   Space,
-} from '../../../components'
-import { H, W, black, goBack, white } from '../../../constants'
-import { useNoBackHandler } from '../../../hooks'
-import { actionsDice, fetchBusinesses } from '../../../store'
-import { RootStackParamList } from '../../../types'
-import { createProfile, getUid } from '../../helper'
+} from 'src/components'
+import { H, W, black, goBack, white } from 'src/constants'
+import { useNoBackHandler } from 'src/hooks'
+import { createProfile, getUid } from 'src/screens/helper'
+import { actionsDice } from 'src/store'
+import { RootStackParamList } from 'src/types'
+import * as yup from 'yup'
 
 type ProfileScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -42,7 +41,7 @@ type SignUpUsernameT = {
   route: ProfileScreenRouteProp
 }
 
-const SignUpUsername = ({ route, navigation }: SignUpUsernameT): ReactElement => {
+export const SignUpUsername = ({ route, navigation }: SignUpUsernameT): ReactElement => {
   const [loading, setLoading] = useState<boolean>(false)
   const { t } = useTranslation()
 
@@ -88,7 +87,6 @@ const SignUpUsername = ({ route, navigation }: SignUpUsernameT): ReactElement =>
       firstName,
       lastName,
     })
-    fetchBusinesses()
     navigation.navigate('SIGN_UP_AVATAR')
     actionsDice.setOnline(true)
     actionsDice.setPlayers(1)
@@ -152,5 +150,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
-
-export { SignUpUsername }

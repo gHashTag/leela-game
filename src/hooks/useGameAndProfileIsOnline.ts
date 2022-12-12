@@ -1,11 +1,9 @@
 import { useEffect } from 'react'
 
-import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-
-import { banAlert } from '../constants'
-import { getFireBaseRef, getUid } from '../screens/helper'
-import { DiceStore, OfflinePlayers, OtherPlayers } from '../store'
+import { banAlert } from 'src/constants'
+import { getFireBaseRef, getUid } from 'src/screens/helper'
+import { DiceStore, OfflinePlayers, OtherPlayers } from 'src/store'
 
 export const useGameAndProfileIsOnline = () => {
   useEffect(() => {
@@ -21,7 +19,7 @@ export const useGameAndProfileIsOnline = () => {
         .where('owner', '==', curUid)
         .onSnapshot(s => s?.docs?.forEach(a => a.data().status === 'ban' && banAlert()))
 
-      const unsub3 = getFireBaseRef('/online/').on('child_changed', async changed => {
+      const unsub3 = getFireBaseRef('/online/').on('child_changed', async () => {
         firestore()
           .collection('Profiles')
           .where('owner', '!=', curUid)
@@ -38,5 +36,5 @@ export const useGameAndProfileIsOnline = () => {
     } else if (!DiceStore.online) {
       OfflinePlayers.startGame()
     }
-  }, [DiceStore.online])
+  }, [])
 }

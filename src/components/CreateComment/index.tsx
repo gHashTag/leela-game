@@ -2,14 +2,12 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { Keyboard, KeyboardAvoidingView, Pressable, StyleSheet } from 'react-native'
+import { Keyboard, Pressable, StyleSheet } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
+import { Input, KeyboardContainer, Text } from 'src/components'
+import { W, black, primary } from 'src/constants'
+import { PostStore } from 'src/store'
 import * as yup from 'yup'
-
-import { Input } from '..'
-import { Text } from '../'
-import { W, black, primary } from '../../constants'
-import { PostStore } from '../../store'
 
 interface CreateCommentT {
   visible: boolean
@@ -47,11 +45,7 @@ export function CreateComment({
     await PostStore.createComment({ text: data.text, postOwner, postId })
   }
   return visible ? (
-    <KeyboardAvoidingView
-      onTouchEnd={Keyboard.dismiss}
-      behavior="padding"
-      style={avoidingView}
-    >
+    <KeyboardContainer onTouchEnd={Keyboard.dismiss} style={avoidingView}>
       <Pressable style={[inputContainer, { backgroundColor: primary }]}>
         <FormProvider {...methods}>
           <Input
@@ -67,7 +61,7 @@ export function CreateComment({
           <Text h="h9" title={`(${length}/250)`} />
         </FormProvider>
       </Pressable>
-    </KeyboardAvoidingView>
+    </KeyboardContainer>
   ) : null
 }
 

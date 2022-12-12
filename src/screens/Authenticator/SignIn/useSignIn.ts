@@ -3,14 +3,11 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 // @ts-expect-error
 import { EMAIL, PASSWORD } from '@env'
 import { yupResolver } from '@hookform/resolvers/yup'
-import auth from '@react-native-firebase/auth'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import * as Keychain from 'react-native-keychain'
+import { captureException } from 'src/constants'
+import { app } from 'src/context/app'
 import * as yup from 'yup'
-
-import { captureException } from '../../../constants'
-import { onSignIn } from '../../helper'
 
 const initialValues = { email: __DEV__ ? EMAIL : '', password: __DEV__ ? PASSWORD : '' }
 
@@ -51,35 +48,33 @@ export const useSignIn = () => {
       setLoading(true)
       setError('')
       const { email, password } = data
-      await auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(async user => {
-          await Keychain.setInternetCredentials('auth', email, password)
-          await onSignIn(user.user)
-        })
-        .catch(err => {
-          switch (err.code) {
-            case 'auth/invalid-email':
-              setError(t('validation:invalidEmail'))
-              break
-            case 'auth/user-not-found':
-              setError(t('validation:userNotFound'))
-              break
-            case 'auth/wrong-password':
-              setError(t('auth.forgotPassword'))
-              break
-            case 'auth/network-request-failed':
-              setError(t('validation:networkRequestFailed'))
-              break
-            case 'auth/too-many-requests':
-              setError(t('validation:manyRequests'))
-              break
-            default:
-              captureException(err.message)
-              setError(err.code)
-              break
-          }
-        })
+
+      try {
+        await app.tryLoadUserByCredentials({ username: email, password })
+        await app.updateSignCredentials(email, password)
+      } catch (err: any) {
+        switch (err?.code) {
+          case 'auth/invalid-email':
+            setError(t('validation:invalidEmail'))
+            break
+          case 'auth/user-not-found':
+            setError(t('validation:userNotFound'))
+            break
+          case 'auth/wrong-password':
+            setError(t('auth.forgotPassword'))
+            break
+          case 'auth/network-request-failed':
+            setError(t('validation:networkRequestFailed'))
+            break
+          case 'auth/too-many-requests':
+            setError(t('validation:manyRequests'))
+            break
+          default:
+            captureException(err?.message)
+            setError(err?.code)
+            break
+        }
+      }
       setLoading(false)
     },
     [t],

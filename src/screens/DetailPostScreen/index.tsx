@@ -7,7 +7,6 @@ import { observer } from 'mobx-react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
-
 import {
   CommentCard,
   EmptyComments,
@@ -15,11 +14,12 @@ import {
   Loading,
   PostCard,
   Space,
-} from '../../components'
-import { captureException, lightGray } from '../../constants'
-import { OnlinePlayer, PostStore } from '../../store'
-import { PostT, RootStackParamList } from '../../types'
-import { getUid } from '../helper'
+} from 'src/components'
+import { captureException, lightGray } from 'src/constants'
+import { app } from 'src/context/app'
+import { getUid } from 'src/screens/helper'
+import { PostStore } from 'src/store'
+import { PostT, RootStackParamList } from 'src/types'
 
 interface DetailPostI {
   navigation: NativeStackNavigationProp<RootStackParamList, 'DETAIL_POST_SCREEN'>
@@ -65,7 +65,7 @@ export const DetailPostScreen: React.FC<DetailPostI> = observer(
         }
         comment && setTimeout(newComment, 900)
         if (!curItem) {
-          await OnlinePlayer.getProfile()
+          app.tryLoadUserByCredentials(await app.getSecretCredentials())
           await PostStore.getOncePost()
         }
       }

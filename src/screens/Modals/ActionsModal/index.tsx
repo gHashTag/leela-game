@@ -5,11 +5,10 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Pressable, StyleSheet, View, useColorScheme } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { s, vs } from 'react-native-size-matters'
-
-import { RenderButtons } from '../../../components'
-import { Space } from '../../../components'
-import { lightGray } from '../../../constants'
-import { RootStackParamList } from '../../../types'
+import { RenderButtons } from 'src/components'
+import { Space } from 'src/components'
+import { lightGray } from 'src/constants'
+import { RootStackParamList } from 'src/types'
 
 interface ActionsModalT {
   navigation: NativeStackNavigationProp<RootStackParamList, 'REPLY_MODAL'>
@@ -21,13 +20,13 @@ export function ActionsModal({ navigation, route }: ActionsModalT) {
   const schema = useColorScheme()
   const pressedColor = schema === 'dark' ? '#2B2B2B' : '#F5F5F5'
   return (
-    <Pressable onPress={() => navigation.goBack()} style={transparentView}>
-      <View style={[modal, { backgroundColor }]}>
+    <Pressable onPress={() => navigation.goBack()} style={styles.transparentView}>
+      <View style={[styles.modal, { backgroundColor }]}>
         <Space height={vs(10)} />
         <FlatList
           data={route.params.buttons}
           keyExtractor={a => a.key}
-          style={listContainer}
+          style={styles.listContainer}
           renderItem={props => (
             <RenderButtons
               {...props}
@@ -60,5 +59,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: s(5),
   },
 })
-
-const { modal, transparentView, listContainer } = styles

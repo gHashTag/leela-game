@@ -6,11 +6,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import auth from '@react-native-firebase/auth'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import * as Keychain from 'react-native-keychain'
+import { captureException } from 'src/constants'
+import { app } from 'src/context/app'
+import { useTypedNavigation } from 'src/hooks'
 import * as yup from 'yup'
-
-import { captureException } from '../../../constants'
-import { useTypedNavigation } from '../../../hooks'
 
 const initialValues = {
   email: __DEV__ ? EMAIL : '',
@@ -61,11 +60,11 @@ export const useSignUp = () => {
       } else {
         setLoading(true)
         setError('')
-        await auth()
+        auth()
           .createUserWithEmailAndPassword(email, password)
           .then(async () => {
-            await Keychain.setInternetCredentials('auth', email, password)
-            navigate('CONFIRM_SIGN_UP', { email })
+            app.updateSignCredentials(email, password)
+            navigate('EMAIL_VERIFY_SIGN_UP', { email })
             setLoading(false)
           })
           .catch(exception => {

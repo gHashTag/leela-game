@@ -35,11 +35,7 @@ const ProfileScreen = observer(({ navigation }: ProfileScreenT) => {
 
   const tabViewWidth = W * 0.96
 
-  const {
-    avatar,
-    plan,
-    profile: { firstName, lastName },
-  } = OnlinePlayer.store
+  const { avatar, plan, firstName, lastName } = OnlinePlayer.store
 
   return (
     <AppContainer
@@ -59,13 +55,13 @@ const ProfileScreen = observer(({ navigation }: ProfileScreenT) => {
             ) : (
               <View style={page.container}>
                 <HeaderMaster
-                  avatar={avatar}
+                  avatar={avatar ?? ''}
                   plan={plan}
                   firstName={firstName}
                   lastName={lastName}
                   editable
                   onPressName={() =>
-                    navigation.navigate('USER_EDIT', OnlinePlayer.store.profile)
+                    navigation.navigate('USER_EDIT', { firstName, lastName })
                   }
                 />
                 <Space height={vs(5)} />

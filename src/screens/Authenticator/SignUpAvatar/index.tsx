@@ -7,12 +7,10 @@ import { observer } from 'mobx-react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity } from 'react-native'
 import { s } from 'react-native-size-matters'
-
-import { AppContainer, Avatar, Button, CenterView, Space } from '../../../components'
-import { useNoBackHandler } from '../../../hooks'
-import { OnlinePlayer } from '../../../store'
-import { RootStackParamList } from '../../../types'
-import { onSignIn } from '../../helper'
+import { AppContainer, Avatar, Button, CenterView, Space } from 'src/components'
+import { useNoBackHandler } from 'src/hooks'
+import { OnlinePlayer } from 'src/store'
+import { RootStackParamList } from 'src/types'
 
 type ProfileScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -25,7 +23,7 @@ type SignUpAvatarT = {
   route: ProfileScreenRouteProp
 }
 
-const SignUpAvatar = observer(({}: SignUpAvatarT): ReactElement => {
+const SignUpAvatar = observer(({ navigation }: SignUpAvatarT): ReactElement => {
   const [load, setLoad] = useState(false)
   const { t } = useTranslation()
 
@@ -37,7 +35,10 @@ const SignUpAvatar = observer(({}: SignUpAvatarT): ReactElement => {
   const handleSubmit = () => {
     const user = auth().currentUser
     if (user) {
-      onSignIn(user)
+      navigation.navigate('CHANGE_INTENTION_SCREEN', {
+        blockGoBack: true,
+        title: t('online-part.createIntention'),
+      })
     }
   }
   useNoBackHandler()
@@ -51,7 +52,7 @@ const SignUpAvatar = observer(({}: SignUpAvatarT): ReactElement => {
     >
       <CenterView>
         <TouchableOpacity onPress={onPressAva}>
-          <Avatar size="xLarge" uri={OnlinePlayer.store.avatar.slice()} loading={load} />
+          <Avatar size="xLarge" uri={OnlinePlayer.store.avatar?.slice()} loading={load} />
         </TouchableOpacity>
 
         <Space height={s(50)} />

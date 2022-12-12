@@ -8,23 +8,25 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { s, vs } from 'react-native-size-matters'
-
-import { AppContainer, Loading, Space, Text } from '../../../components'
-import { black, white } from '../../../constants'
-import { RootStackParamList } from '../../../types'
+import { AppContainer, Loading, Space, Text } from 'src/components'
+import { black, white } from 'src/constants'
+import { RootStackParamList } from 'src/types'
 
 type ProfileScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  'CONFIRM_SIGN_UP'
+  'EMAIL_VERIFY_SIGN_UP'
 >
-type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'CONFIRM_SIGN_UP'>
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'EMAIL_VERIFY_SIGN_UP'>
 
-type ConfirmSignUpT = {
+type EmailVerifySignUpT = {
   navigation: ProfileScreenNavigationProp
   route: ProfileScreenRouteProp
 }
 
-export const ConfirmSignUp = ({ route, navigation }: ConfirmSignUpT): ReactElement => {
+export const EmailVerifySignUp = ({
+  route,
+  navigation,
+}: EmailVerifySignUpT): ReactElement => {
   const [isVerify, setIsVerify] = useState<boolean | undefined>(false)
   const [canResend, setCanResend] = useState<boolean>(true)
   const { t } = useTranslation()

@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 
 import NetInfo from '@react-native-community/netinfo'
-
-import { OpenNetworkModal } from '../constants'
-import { DiceStore } from '../store'
+import { OpenNetworkModal } from 'src/constants'
+import { DiceStore } from 'src/store'
 
 export const useNetwork = () => {
   useEffect(() => {

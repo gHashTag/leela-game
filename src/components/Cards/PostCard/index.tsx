@@ -91,9 +91,9 @@ export const PostCard: React.FC<postCardI> = memo(
               <Text h={'h5'} numberOfLines={1} textStyle={lightText} title={`${date}`} />
               <Space height={vs(5)} />
             </View>
-            <TouchableOpacity onPress={handleTranslate}>
+            {/* <TouchableOpacity onPress={handleTranslate}>
               <Text title={flag} style={styles.flagEmoji} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           {/* Detail Text */}
           <HashtagFormat h={'h5'} textStyle={textStyle} title={text || ' '} selectable />
@@ -175,9 +175,9 @@ export const PostCard: React.FC<postCardI> = memo(
               <Text numberOfLines={1} h={'h6'} title={fullName} />
               <Text h={'h6'} textStyle={lightText} title={` · ${date}`} />
               <View style={flex1} />
-              <TouchableOpacity onPress={handleTranslate}>
+              {/* <TouchableOpacity onPress={handleTranslate}>
                 <Text title={flag} style={styles.flagEmoji} />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             <Space height={vs(5)} />
             <HashtagFormat

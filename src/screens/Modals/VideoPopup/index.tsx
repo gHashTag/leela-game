@@ -7,10 +7,9 @@ import { StyleSheet, View } from 'react-native'
 import Orientation from 'react-native-orientation-locker'
 import { s } from 'react-native-size-matters'
 import SystemNavigationBar from 'react-native-system-navigation-bar'
-
-import { ButtonVectorIcon, VideoPlayer } from '../../../components'
-import { black, white } from '../../../constants'
-import { RootStackParamList } from '../../../types'
+import { ButtonVectorIcon, VideoPlayer } from 'src/components'
+import { black, white } from 'src/constants'
+import { RootStackParamList } from 'src/types'
 
 interface VideoPopupT {
   navigation: NativeStackNavigationProp<RootStackParamList, 'VIDEO_SCREEN'>
@@ -37,11 +36,11 @@ export function VideoPopup({ navigation, route }: VideoPopupT) {
   return (
     <>
       <StatusBar hidden backgroundColor="black" barStyle="light-content" />
-      <View style={page.transpView}>
+      <View style={styles.transpView}>
         <VideoPlayer source={{ uri }} poster={poster} />
         <ButtonVectorIcon
           onPress={handleBack}
-          viewStyle={page.btnS}
+          viewStyle={styles.btnS}
           name="angle-double-left"
           size={s(40)}
         />
@@ -50,7 +49,7 @@ export function VideoPopup({ navigation, route }: VideoPopupT) {
   )
 }
 
-const page = StyleSheet.create({
+const styles = StyleSheet.create({
   transpView: {
     flex: 1,
   },

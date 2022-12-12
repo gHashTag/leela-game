@@ -1,12 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { makeAutoObservable } from 'mobx'
 import { makePersistable } from 'mobx-persist-store'
+import { navigate } from 'src/constants'
 import i18next from 'src/i18n'
+import { upStepOffline } from 'src/store/helper'
+import { HistoryT } from 'src/types'
 
-import { upStepOffline } from './helper'
-
-import { navigate } from '../constants'
-import { HistoryT } from '../types'
 import { actionsDice } from './'
 
 export const initStore = {

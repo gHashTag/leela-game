@@ -7,10 +7,9 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { vs } from 'react-native-size-matters'
-
-import { AppContainer, SelectableIOS, Space, Text } from '../../components'
-import { goBack } from '../../constants'
-import { RootStackParamList } from '../../types'
+import { AppContainer, SelectableIOS, Space, Text } from 'src/components'
+import { goBack } from 'src/constants'
+import { RootStackParamList } from 'src/types'
 
 type navigation = NativeStackNavigationProp<RootStackParamList, 'RULES_DETAIL_SCREEN'>
 type route = RouteProp<RootStackParamList, 'RULES_DETAIL_SCREEN'>

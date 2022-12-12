@@ -5,10 +5,9 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useTranslation } from 'react-i18next'
 import { BackHandler, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
-
-import { Space, Text } from '../../../components'
-import { fuchsia } from '../../../constants'
-import { RootStackParamList } from '../../../types'
+import { Space, Text } from 'src/components'
+import { fuchsia } from 'src/constants'
+import { RootStackParamList } from 'src/types'
 
 interface PlanReportModalT {
   navigation: NativeStackNavigationProp<RootStackParamList, 'PLAN_REPORT_MODAL'>
@@ -34,13 +33,13 @@ export function PlanReportModal({ navigation, route }: PlanReportModalT) {
     }
   }
   return (
-    <View style={page.transpCont}>
-      <View style={[page.modalView, { backgroundColor: background }]}>
-        <Text h="h4" textStyle={page.textStyle} title={t('online-part.makeReport')} />
+    <View style={styles.transpCont}>
+      <View style={[styles.modalView, { backgroundColor: background }]}>
+        <Text h="h4" textStyle={styles.textStyle} title={t('online-part.makeReport')} />
         <Space height={vs(16)} />
         <TouchableOpacity onPress={handlePress}>
           <Text
-            textStyle={page.linkText}
+            textStyle={styles.linkText}
             title={t('actions.go')}
             oneColor={fuchsia}
             h="h2"
@@ -51,7 +50,7 @@ export function PlanReportModal({ navigation, route }: PlanReportModalT) {
   )
 }
 
-const page = StyleSheet.create({
+const styles = StyleSheet.create({
   transpCont: {
     height: '100%',
     width: '100%',

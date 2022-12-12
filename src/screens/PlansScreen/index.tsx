@@ -4,13 +4,12 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useTranslation } from 'react-i18next'
 import { FlatList } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
+import { AppContainer, RenderPlanItem, Space } from 'src/components'
+import { goBack } from 'src/constants'
+import { OnlinePlayer } from 'src/store'
+import { PlansT, RootStackParamList } from 'src/types'
 
 import data from './indexes.json'
-
-import { AppContainer, RenderPlanItem, Space } from '../../components'
-import { goBack } from '../../constants'
-import { OnlinePlayer } from '../../store'
-import { PlansT, RootStackParamList } from '../../types'
 
 type navigation = NativeStackNavigationProp<RootStackParamList, 'PLANS_SCREEN'>
 

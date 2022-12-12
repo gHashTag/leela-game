@@ -5,10 +5,9 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useTranslation } from 'react-i18next'
 import { BackHandler, View } from 'react-native'
 import { ScaledSheet, s, vs } from 'react-native-size-matters'
-
-import { ButtonSimple, Space, Text } from '../../../components'
-import { OnlinePlayer } from '../../../store'
-import { RootStackParamList } from '../../../types'
+import { ButtonSimple, Space, Text } from 'src/components'
+import { OnlinePlayer } from 'src/store'
+import { RootStackParamList } from 'src/types'
 
 interface NetworkModalT {
   navigation: NativeStackNavigationProp<RootStackParamList, 'NETWORK_MODAL'>

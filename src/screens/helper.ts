@@ -1,19 +1,13 @@
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import auth from '@react-native-firebase/auth'
 import { FirebaseDatabaseTypes, firebase } from '@react-native-firebase/database'
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
 import { nanoid } from 'nanoid/non-secure'
 import ImagePicker from 'react-native-image-crop-picker'
 import semver from 'semver'
-import {
-  OpenPlanReportModal,
-  OpenUpdateVersionModal,
-  accountHasBanAlert,
-  captureException,
-  navigate,
-} from 'src/constants'
+import { OpenUpdateVersionModal, captureException } from 'src/constants'
 import i18next, { flagEmoji, lang } from 'src/i18n'
-import { MessagingStore, OnlinePlayer, actionsDice, fetchBusinesses } from 'src/store'
+import { OnlinePlayer } from 'src/store'
 import { HistoryT, UserT } from 'src/types'
 
 import { version } from '../../package.json'
@@ -94,13 +88,11 @@ const createProfile = async ({ email, uid, firstName, lastName }: NewProfileI) =
   OnlinePlayer.store = {
     ...OnlinePlayer.store,
     plan: 68,
-    profile: {
-      firstName,
-      lastName,
-      email,
-      intention: '',
-    },
-    stepTime: Date.now() - 86400000,
+    firstName,
+    lastName,
+    email,
+    intention: '',
+    lastStepTime: Date.now() - 86400000,
     canGo: true,
     history: hisObj,
     start: false,
@@ -156,8 +148,8 @@ const updateProfName = async ({ firstName, lastName }: profNameI) => {
       lastName,
     })
     await auth().currentUser?.reload()
-    OnlinePlayer.store.profile.firstName = firstName
-    OnlinePlayer.store.profile.lastName = lastName
+    OnlinePlayer.store.firstName = firstName
+    OnlinePlayer.store.lastName = lastName
   } catch (err) {
     captureException(err)
   }
@@ -167,7 +159,7 @@ const updateIntention = async (newIntention: string) => {
     await firestore().collection('Profiles').doc(getUid()).update({
       intention: newIntention,
     })
-    OnlinePlayer.store.profile.intention = newIntention
+    OnlinePlayer.store.intention = newIntention
   } catch (err) {
     captureException(err)
   }
@@ -226,7 +218,7 @@ const createHistory = async (values: HistoryT) => {
 
 const startStepTimer = () => {
   const newTime = Date.now()
-  OnlinePlayer.store.stepTime = newTime
+  OnlinePlayer.store.lastStepTime = newTime
   OnlinePlayer.store.isReported = true
   const userUid = getUid()
   if (userUid) {
@@ -320,54 +312,6 @@ function getTimeStamp({ lastTime, type = '' }: getTimeT) {
   }
 }
 
-const onSignIn = async (
-  user: FirebaseAuthTypes.User,
-  isKeychain?: boolean,
-  linkTo?: any,
-) => {
-  try {
-    actionsDice.setOnline(true)
-    if (user.emailVerified) {
-      const prof = await getProfile()
-      if (prof?.status === 'ban') {
-        !isKeychain && accountHasBanAlert()
-        return
-      }
-      if (!prof?.firstGame && !prof?.lastName) {
-        navigate('SIGN_UP_USERNAME', { email: user.email })
-      } else if (!prof.avatar) {
-        navigate('SIGN_UP_AVATAR')
-      } else if (!prof.intention) {
-        navigate('CHANGE_INTENTION_SCREEN', {
-          blockGoBack: true,
-          title: i18next.t('online-part.createIntention'),
-        })
-      } else {
-        navigate('MAIN', { screen: 'TAB_BOTTOM_0' })
-        if (!prof.isReported) {
-          OpenPlanReportModal(prof.plan)
-        } else if (MessagingStore.path) {
-          setTimeout(() => {
-            linkTo(MessagingStore.path)
-            MessagingStore.path = ''
-          }, 0)
-        }
-        const reference = getFireBaseRef(`/online/${prof.owner}`)
-        reference.set(true)
-        reference.onDisconnect().set(false)
-        OnlinePlayer.getProfile()
-        fetchBusinesses()
-      }
-    } else {
-      navigate('CONFIRM_SIGN_UP', {
-        email: user.email,
-      })
-    }
-  } catch (error) {
-    captureException(error)
-  }
-}
-
 const checkVersion = async (minVersion: string) => {
   if (semver.lt(version, minVersion)) {
     OpenUpdateVersionModal()
@@ -393,7 +337,6 @@ export {
   getTimeStamp,
   getUid,
   startStepTimer,
-  onSignIn,
   checkVersion,
   updateIntention,
 }

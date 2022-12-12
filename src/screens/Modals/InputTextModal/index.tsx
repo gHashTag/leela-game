@@ -7,11 +7,10 @@ import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-fo
 import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
+import { Input, KeyboardContainer, Text } from 'src/components'
+import { W, secondary } from 'src/constants'
+import { RootStackParamList } from 'src/types'
 import * as yup from 'yup'
-
-import { Input, KeyboardContainer, Text } from '../../../components'
-import { W, secondary } from '../../../constants'
-import { RootStackParamList } from '../../../types'
 
 interface InputTextT {
   navigation: NativeStackNavigationProp<RootStackParamList, 'INPUT_TEXT_MODAL'>
@@ -48,17 +47,17 @@ export function InputTextModal({ navigation, route }: InputTextT) {
     methods.reset()
   }
   return (
-    <View style={page.transparentView}>
+    <View style={styles.transparentView}>
       <KeyboardContainer>
-        <Pressable onPress={() => navigation.goBack()} style={page.goBackView} />
-        <View style={[page.inputContainer, { backgroundColor: background }]}>
+        <Pressable onPress={() => navigation.goBack()} style={styles.goBackView} />
+        <View style={[styles.inputContainer, { backgroundColor: background }]}>
           <FormProvider {...methods}>
             <Input
               onChange={e => setLength(e.nativeEvent.text.length)}
               name="text"
               placeholder={t('online-part.uComment')}
               color={text}
-              additionalStyle={page.input}
+              additionalStyle={styles.input}
               showError={false}
               onSubmitEditing={methods.handleSubmit(
                 handleSubmit,
@@ -73,7 +72,7 @@ export function InputTextModal({ navigation, route }: InputTextT) {
   )
 }
 
-const page = StyleSheet.create({
+const styles = StyleSheet.create({
   transparentView: {
     flex: 1,
   },

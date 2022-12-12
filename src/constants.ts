@@ -1,6 +1,6 @@
 import { createNavigationContainerRef } from '@react-navigation/native'
 import * as Sentry from '@sentry/react-native'
-import { Alert, Dimensions, I18nManager, Linking, Platform } from 'react-native'
+import { Alert, Dimensions, Linking, Platform } from 'react-native'
 import i18next from 'src/i18n'
 
 import { ButtonsModalT } from './types'
@@ -110,9 +110,3 @@ export const paleBlue = '#BEFCE5'
 export const brightTurquoise = '#1EE4EC'
 export const RED = '#FC2847'
 export const orange = '#FFB700'
-
-export const revenuecat = 'BeIMIIfptWXlouosYudFEWQDkwDvJUzv'
-
-export const defUrl = 'https://leelachakra.com/resource/LeelaChakra/Mantra/mantra.json'
-
-export const ENTITLEMENT_ID = 'Pro'

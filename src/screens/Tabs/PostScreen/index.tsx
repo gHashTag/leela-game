@@ -7,11 +7,10 @@ import { observer } from 'mobx-react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
-
-import { Header, PostCard, Space, Spin, Text } from '../../../components'
-import { captureException } from '../../../constants'
-import { DiceStore, PostStore } from '../../../store'
-import { RootTabParamList } from '../../../types'
+import { Header, PostCard, Space, Spin, Text } from 'src/components'
+import { captureException } from 'src/constants'
+import { DiceStore, PostStore } from 'src/store'
+import { RootTabParamList } from 'src/types'
 
 interface Ipost {
   navigation: NativeStackNavigationProp<RootTabParamList, 'TAB_BOTTOM_1'>

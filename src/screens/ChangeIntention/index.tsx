@@ -8,12 +8,12 @@ import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-fo
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { mvs, vs } from 'react-native-size-matters'
+import { AppContainer, Button, Input, Loading, Space } from 'src/components'
+import { black, lightGray } from 'src/constants'
+import { app } from 'src/context/app'
+import { getProfile, updateIntention } from 'src/screens/helper'
+import { RootStackParamList } from 'src/types'
 import * as yup from 'yup'
-
-import { AppContainer, Button, Input, Loading, Space } from '../../components'
-import { black, lightGray } from '../../constants'
-import { updateIntention } from '../../screens/helper'
-import { RootStackParamList } from '../../types'
 
 type ChangeIntentionScreenNavProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -57,7 +57,15 @@ export const ChangeIntention = ({ navigation, route }: ChangeIntentionT) => {
     setLoading(true)
     const { newIntention } = data
     await updateIntention(newIntention)
-    navigation.navigate('MAIN')
+    if (blockGoBack) {
+      const prof = await getProfile()
+      if (prof) {
+        app.tryLoadUserByCredentials(await app.getSecretCredentials())
+      }
+      navigation.navigate('MAIN')
+    } else {
+      navigation.goBack()
+    }
     setLoading(false)
   }
 

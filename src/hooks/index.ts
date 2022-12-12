@@ -1,6 +1,5 @@
 export * from './useExitModal'
 export * from './useGameAndProfileIsOnline'
-export * from './useKeychain'
 export * from './useNetwork'
 export * from './useTypedNavigation'
 export * from './useNoBackHandler'

@@ -3,31 +3,21 @@ import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
 import { makeAutoObservable } from 'mobx'
 import * as Keychain from 'react-native-keychain'
+import { captureException, navigate } from 'src/constants'
+import { app } from 'src/context/app'
 import i18next from 'src/i18n'
-
-import { upStepOnline } from './helper'
-import { delTokenOnSignOut } from './MessagingStore'
-
-import { captureException, navigate } from '../constants'
 import {
-  getFireBaseRef,
   getIMG,
   getImagePicker,
-  getProfile,
+  getUid,
   resetHistory,
   resetPlayer,
   updatePlan,
   uploadImg,
-} from '../screens/helper'
-import { HistoryT, status } from '../types'
-import { DiceStore, actionsDice } from './'
-
-const initProfile = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  intention: '',
-}
+} from 'src/screens/helper'
+import { DiceStore, actionsDice, delTokenOnSignOut } from 'src/store'
+import { upStepOnline } from 'src/store/helper'
+import { UserT } from 'src/types'
 
 const initHistory = () => [
   {
@@ -38,29 +28,35 @@ const initHistory = () => [
   },
 ]
 
-export const OnlinePlayer = makeAutoObservable<Istore>({
-  store: {
-    start: false,
-    finish: false,
-    stepTime: 0,
-    timeText: ' ',
-    canGo: false,
-    plan: 68,
-    // addons
-    firstGame: false,
-    loadingProf: true,
-    history: initHistory(),
-    isReported: true,
-    avatar: '',
-    profile: initProfile,
-    // poster
-    poster: {
-      imgUrl: 'https://leelachakra.com/resource/LeelaChakra/poster.JPG',
-      eventUrl: '',
-      buttonColor: '#1c1c1c',
-    },
-    isPosterLoading: false,
+const initState = () => ({
+  // common
+  email: '',
+  firstName: '',
+  lastName: '',
+  lastStepTime: 0,
+  owner: '',
+  start: false,
+  finish: false,
+  timeText: ' ',
+  canGo: false,
+  plan: 68,
+  // addons
+  firstGame: false,
+  loadingProf: true,
+  history: initHistory(),
+  isReported: true,
+  avatar: '',
+  // poster
+  poster: {
+    imgUrl: 'https://leelachakra.com/resource/LeelaChakra/poster.JPG',
+    eventUrl: '',
+    buttonColor: '#1c1c1c',
+    loading: true,
   },
+})
+
+export const OnlinePlayer = makeAutoObservable<Istore>({
+  store: initState(),
   async resetGame(): Promise<void> {
     try {
       OnlinePlayer.store = {
@@ -70,33 +66,20 @@ export const OnlinePlayer = makeAutoObservable<Istore>({
         plan: 68,
         history: initHistory(),
       }
-      await resetPlayer()
-      await resetHistory()
-      await updatePlan(68)
+      resetPlayer()
+      resetHistory()
+      updatePlan(68)
     } catch (err) {
       captureException(err)
     }
   },
   async SignOut(): Promise<void> {
     try {
-      const userUid = auth().currentUser?.uid
-      await getFireBaseRef(`/online/${userUid}`).set(false)
-      await delTokenOnSignOut()
-      OnlinePlayer.store = {
-        ...OnlinePlayer.store,
-        profile: initProfile,
-        avatar: '',
-        start: false,
-        finish: false,
-        plan: 68,
-        history: initHistory(),
-        canGo: false,
-        stepTime: 0,
-        timeText: ' ',
-        loadingProf: true,
-      }
+      app.emit('change-online-state', false)
+      delTokenOnSignOut()
+      OnlinePlayer.store = initState()
       actionsDice.resetPlayer()
-      await Keychain.resetInternetCredentials('auth')
+      Keychain.resetInternetCredentials('auth')
       await auth().signOut()
       navigate('WELCOME_SCREEN')
     } catch (err) {
@@ -105,59 +88,32 @@ export const OnlinePlayer = makeAutoObservable<Istore>({
   },
   async SignOutToOffline(): Promise<void> {
     try {
-      OnlinePlayer.store = {
-        ...OnlinePlayer.store,
-        profile: initProfile,
-        avatar: '',
-        start: false,
-        finish: false,
-        plan: 68,
-        history: initHistory(),
-        canGo: false,
-        stepTime: 0,
-        timeText: ' ',
-        loadingProf: true,
-      }
+      app.emit('change-online-state', false)
+      OnlinePlayer.store = initState()
       actionsDice.resetPlayer()
-      await auth().signOut()
+      auth().signOut()
     } catch (err) {
       captureException(err)
     }
   },
-  async getProfile(): Promise<void> {
+  async loadProfile(prof) {
     try {
       OnlinePlayer.store.loadingProf = true
-      const curProf = await getProfile()
-      if (curProf) {
-        OnlinePlayer.store = {
-          ...OnlinePlayer.store,
-          plan: curProf.plan,
-          start: curProf.start,
-          finish: curProf.finish,
-          firstGame: curProf.firstGame,
-          profile: {
-            firstName: curProf.firstName,
-            lastName: curProf.lastName,
-            email: curProf.email,
-            intention: curProf.intention || '',
-          },
-          isReported: curProf.isReported,
-          flagEmoji: curProf.flagEmoji,
-          stepTime: curProf.lastStepTime,
-          canGo: Date.now() - curProf.lastStepTime >= 86400000,
-          status: curProf.status,
-          history: curProf.history
-            .sort((a, b) => b.createDate - a.createDate)
-            .slice(0, 30),
-        }
-        if (curProf.plan === 68 && !curProf.finish) {
-          actionsDice.setMessage(i18next.t('sixToBegin'))
-        } else {
-          actionsDice.setMessage(' ')
-        }
-        OnlinePlayer.store.avatar = await getIMG(curProf.avatar)
-        DiceStore.startGame = curProf.start
+      OnlinePlayer.store = {
+        ...OnlinePlayer.store,
+        ...prof,
+        canGo: Date.now() - prof.lastStepTime >= 86400000,
+        history: prof.history.sort((a, b) => b.createDate - a.createDate).slice(0, 30),
       }
+      if (prof.plan === 68 && !prof.finish) {
+        actionsDice.setMessage(i18next.t('sixToBegin'))
+      } else {
+        actionsDice.setMessage(' ')
+      }
+
+      DiceStore.startGame = prof.start
+
+      OnlinePlayer.store.avatar = await getIMG(prof.avatar)
       OnlinePlayer.store.loadingProf = false
     } catch (error) {
       captureException(error)
@@ -167,22 +123,18 @@ export const OnlinePlayer = makeAutoObservable<Istore>({
     try {
       const image = await getImagePicker()
       if (image) {
-        try {
-          const fileName = await uploadImg(image)
-          const prevImgUrl = auth().currentUser?.photoURL
-          if (prevImgUrl) {
-            await storage().ref(prevImgUrl).delete()
-          }
-          await auth().currentUser?.updateProfile({
-            photoURL: fileName,
-          })
-          await firestore().collection('Profiles').doc(auth().currentUser?.uid).update({
-            avatar: fileName,
-          })
-          OnlinePlayer.store.avatar = await getIMG(fileName)
-        } catch (error) {
-          captureException(error)
+        const fileName = await uploadImg(image)
+        const prevImgUrl = auth().currentUser?.photoURL
+        if (prevImgUrl) {
+          await storage().ref(prevImgUrl).delete()
         }
+        await auth().currentUser?.updateProfile({
+          photoURL: fileName,
+        })
+        await firestore().collection('Profiles').doc(getUid()).update({
+          avatar: fileName,
+        })
+        OnlinePlayer.store.avatar = await getIMG(fileName)
       }
     } catch (error) {
       captureException(error)
@@ -193,15 +145,15 @@ export const OnlinePlayer = makeAutoObservable<Istore>({
   },
   async getPoster(): Promise<void> {
     try {
-      OnlinePlayer.store.isPosterLoading = true
+      OnlinePlayer.store.poster.loading = true
       const jsonResponse = await (
         await fetch('https://leelachakra.com/resource/LeelaChakra/poster.json')
       ).json()
-      OnlinePlayer.store.poster = jsonResponse
+      OnlinePlayer.store.poster = { ...OnlinePlayer.store.poster, ...jsonResponse }
     } catch (error) {
       captureException(error)
     } finally {
-      OnlinePlayer.store.isPosterLoading = false
+      OnlinePlayer.store.poster.loading = false
     }
   },
   getLeftTime(lastTime) {
@@ -232,7 +184,7 @@ interface Istore {
   store: OnlinePlayerStore
   resetGame: () => Promise<void>
   SignOut: () => Promise<void>
-  getProfile: () => Promise<void>
+  loadProfile: (prof: UserT) => Promise<void>
   uploadImage: () => Promise<void>
   updateStep: () => Promise<void>
   getPoster: () => Promise<void>
@@ -240,33 +192,14 @@ interface Istore {
   getLeftTime: (lastTime: number) => string
 }
 
-interface OnlinePlayerStore {
-  // game
-  start: boolean
-  finish: boolean
-  stepTime: number
+interface OnlinePlayerStore extends UserT {
   timeText: string
   canGo: boolean
-  plan: number
-  // addons
-  firstGame: boolean
   loadingProf: boolean
-  history: HistoryT[]
-  isReported: boolean
-  avatar: string
-  profile: {
-    firstName: string
-    lastName: string
-    email: string
-    intention: string
-  }
-  // poster
   poster: {
     imgUrl: string
     eventUrl: string
     buttonColor: string
+    loading: boolean
   }
-  isPosterLoading: boolean
-  flagEmoji?: string
-  status?: status
 }

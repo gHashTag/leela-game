@@ -5,11 +5,10 @@ import { FlatList, StyleSheet } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { s, vs } from 'react-native-size-matters'
+import { HistoryStep, Space } from 'src/components'
+import { useHistoryData } from 'src/hooks/useHistoryData'
+import { TabContext } from 'src/screens/Tabs/ProfileScreen/TabContext'
 import { HistoryT } from 'src/types'
-
-import { HistoryStep, Space } from '../../../../components'
-import { useHistoryData } from '../../../../hooks/useHistoryData'
-import { TabContext } from '../TabContext'
 
 export const HistoryScene = observer(() => {
   const data = useHistoryData() as HistoryT[]

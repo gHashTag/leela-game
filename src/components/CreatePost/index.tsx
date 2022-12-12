@@ -4,13 +4,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
+import { Button, Input, Loading, Space } from 'src/components'
+import { dimGray, navigate } from 'src/constants'
+import { startStepTimer } from 'src/screens/helper'
+import { PostStore } from 'src/store'
 import * as yup from 'yup'
-
-import { Button, Input, Space } from '..'
-import { Loading } from '../'
-import { dimGray, navigate } from '../../constants'
-import { startStepTimer } from '../../screens/helper'
-import { PostStore } from '../../store'
 
 interface CreatePostT {
   plan: number

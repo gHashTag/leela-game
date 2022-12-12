@@ -4,16 +4,15 @@ import { observer } from 'mobx-react'
 import { StyleSheet, View } from 'react-native'
 import { GestureDetector } from 'react-native-gesture-handler'
 import { s } from 'react-native-size-matters'
-
-import { ButtonEdit, Space, Text } from '../../../../components'
-import { useTypedNavigation } from '../../../../hooks'
-import { OnlinePlayer } from '../../../../store'
-import { TabContext } from '../TabContext'
+import { ButtonEdit, Space, Text } from 'src/components'
+import { useTypedNavigation } from 'src/hooks'
+import { TabContext } from 'src/screens/Tabs/ProfileScreen/TabContext'
+import { OnlinePlayer } from 'src/store'
 
 export const IntentionOfGame = observer(() => {
   const { navigate } = useTypedNavigation()
   const { headerGesture } = useContext(TabContext) as any
-  const intention = OnlinePlayer.store.profile.intention
+  const intention = OnlinePlayer.store.intention
 
   const handleEdit = () => {
     navigate('CHANGE_INTENTION_SCREEN', { prevIntention: intention })
@@ -25,7 +24,7 @@ export const IntentionOfGame = observer(() => {
         <Space height={5} />
         <ButtonEdit viewStyle={btnEdit} onPress={handleEdit} />
         <Space height={5} />
-        <Text title={intention} h="h5" />
+        <Text title={intention ?? ''} h="h5" />
       </View>
     </GestureDetector>
   )

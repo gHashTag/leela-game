@@ -10,8 +10,7 @@ import {
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { s, vs } from 'react-native-size-matters'
-
-import { isIos } from '../../../constants'
+import { isIos } from 'src/constants'
 
 interface useScrollGestureProps {
   hasBottomTabs?: boolean

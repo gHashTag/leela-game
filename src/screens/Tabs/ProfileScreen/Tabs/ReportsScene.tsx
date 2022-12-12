@@ -7,12 +7,11 @@ import { FlatList, StyleSheet, View } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { s, vs } from 'react-native-size-matters'
-
-import { PostCard, Space, Text } from '../../../../components'
-import { captureException } from '../../../../constants'
-import { PostStore } from '../../../../store'
-import { getUid } from '../../../helper'
-import { TabContext } from '../TabContext'
+import { PostCard, Space, Text } from 'src/components'
+import { captureException } from 'src/constants'
+import { getUid } from 'src/screens/helper'
+import { TabContext } from 'src/screens/Tabs/ProfileScreen/TabContext'
+import { PostStore } from 'src/store'
 
 export const ReportsScene = observer(() => {
   const [limit, setLimit] = useState(15)

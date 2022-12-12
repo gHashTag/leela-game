@@ -9,10 +9,9 @@ import { ThemeProvider } from 'react-native-elements'
 import Orientation from 'react-native-orientation-locker'
 import { s, vs } from 'react-native-size-matters'
 import Spin from 'react-native-spinkit'
-
-import { AppContainer, SocialLinks, Space, Text } from '../../components'
-import { OpenVideoModal, captureException, primary, secondary } from '../../constants'
-import { RootStackParamList } from '../../types'
+import { AppContainer, SocialLinks, Space, Text } from 'src/components'
+import { OpenVideoModal, captureException, primary, secondary } from 'src/constants'
+import { RootStackParamList } from 'src/types'
 
 type navigation = NativeStackNavigationProp<RootStackParamList, 'PLAYRA_SCREEN'>
 
