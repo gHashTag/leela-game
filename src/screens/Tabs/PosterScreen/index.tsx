@@ -55,7 +55,7 @@ const PosterScreen = observer(({}: PosterScreenT) => {
   return (
     <ImageBackground resizeMode="cover" source={{ uri: imgUrl }} style={img}>
       <View style={[styles.btnMoreContainer, secondBtnVisible && styles.lessBottom]}>
-        <BlurView blurType={'light'} blurAmount={10} style={styles.blurBackground} />
+        <BlurView blurType="light" blurAmount={10} style={styles.blurBackground} />
         <ButtonWithIcon
           title={t('assign')}
           color={buttonColor || '#AA6100'}

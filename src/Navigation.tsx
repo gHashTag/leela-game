@@ -198,7 +198,7 @@ const App = () => {
           <Stack.Screen
             name="PLANS_DETAIL_SCREEN"
             component={PlansDetailScreen}
-            options={{ gestureEnabled: false }}
+            options={{ headerShown: false, gestureEnabled: false }}
           />
         </Stack.Group>
 

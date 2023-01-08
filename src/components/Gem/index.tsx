@@ -81,7 +81,7 @@ const Gem = observer(({ plan, player }: GemT) => {
             </GestureDetector>
           )
         } else {
-          return <></>
+          return <React.Fragment key={id} />
         }
       })}
     </View>
@@ -97,6 +97,7 @@ const styles = ScaledSheet.create({
   gems: {
     width: ms(42, 0.5),
     height: ms(42, 0.5),
+    position: 'absolute',
     borderRadius: ms(42, 0.5) / 2,
   },
   primaryGem: {

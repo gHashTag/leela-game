@@ -145,15 +145,12 @@ export const OnlinePlayer = makeAutoObservable<Istore>({
   },
   async getPoster(): Promise<void> {
     try {
-      OnlinePlayer.store.poster.loading = true
       const jsonResponse = await (
         await fetch('https://leelachakra.com/resource/LeelaChakra/poster.json')
       ).json()
       OnlinePlayer.store.poster = { ...OnlinePlayer.store.poster, ...jsonResponse }
     } catch (error) {
       captureException(error)
-    } finally {
-      OnlinePlayer.store.poster.loading = false
     }
   },
   getLeftTime(lastTime) {
