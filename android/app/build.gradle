@@ -140,8 +140,8 @@ android {
         applicationId "com.leelagame"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 29
-        versionName "4.0.0"
+        versionCode 33
+        versionName "4.5.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         if (isNewArchitectureEnabled()) {
@@ -287,6 +287,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+    def billingVersion = "5.0.0"
+    implementation "com.android.billingclient:billing:$billingVersion"
 }
 
 if (isNewArchitectureEnabled()) {
