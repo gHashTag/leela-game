@@ -1,18 +1,19 @@
 import { LinkingOptions, getStateFromPath } from '@react-navigation/native'
 import { Linking } from 'react-native'
 import Branch from 'react-native-branch'
+import { captureException } from 'src/constants'
+import { app } from 'src/context/app'
+import { RootStackParamList } from 'src/types'
 
 import { formatLink, subscribeDeepLinkUrl } from './linkHelpers'
-
-import { captureException } from '../../constants'
-import { RootStackParamList } from '../../types'
 
 export const linking: LinkingOptions<RootStackParamList> = {
   prefixes: ['https://leelagame.app.link', 'leelagame://'],
 
-  // Пользовательская функция для получения URL-адреса,
-  // которая используется для открытия приложения.
+  // Custom function for getting the URL,
+  // which is used to open the application.
   async getInitialURL() {
+    await app.tryLoadUserByCredentials(await app.getSecretCredentials())
     const uri = await Linking.getInitialURL()
 
     const lastParams = await Branch.getLatestReferringParams(true)
@@ -25,7 +26,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
     return getCustomNavState({ path, config })
   },
 
-  // Пользовательская функция для подписки на входящие ссылки
+  // Custom function for subscribing to incoming links
   subscribe(listener) {
     const unsubscribe = Branch.subscribe(async ({ error, params, uri }) => {
       if (error) {

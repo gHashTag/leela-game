@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, View } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
 import { Input, KeyboardContainer, Text } from 'src/components'
-import { W, secondary } from 'src/constants'
+import { W, gray } from 'src/constants'
 import { RootStackParamList } from 'src/types'
 import * as yup from 'yup'
 
@@ -38,7 +38,7 @@ export function InputTextModal({ navigation, route }: InputTextT) {
     setTimeout(() => methods.setFocus('text'), 100)
   }, [])
   const {
-    colors: { background, text },
+    colors: { background },
   } = useTheme()
 
   const handleSubmit: SubmitHandler<FieldValues> = async data => {
@@ -56,7 +56,7 @@ export function InputTextModal({ navigation, route }: InputTextT) {
               onChange={e => setLength(e.nativeEvent.text.length)}
               name="text"
               placeholder={t('online-part.uComment')}
-              color={text}
+              color={gray}
               additionalStyle={styles.input}
               showError={false}
               onSubmitEditing={methods.handleSubmit(
@@ -77,8 +77,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   input: {
-    width: W - s(65),
+    width: W - s(75),
     marginBottom: vs(10),
+    marginLeft: s(10),
   },
   inputContainer: {
     paddingHorizontal: vs(5),
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: s(1),
     borderBottomWidth: 0,
-    borderColor: secondary,
+    borderColor: gray,
   },
   goBackView: {
     flex: 1,

@@ -10,7 +10,7 @@ interface getActionsProps {
   item: CommentT
   handleTransText: () => void
 }
-export const getActions: getActionsT = ({ item, handleTransText }) => {
+export const getActions: getActionsT = ({ item /*, handleTransText*/ }) => {
   const isOwner = getUid() === item.ownerId
   const isAdmin = OnlinePlayer.store.status === 'Admin'
   const isBaned =
@@ -40,12 +40,12 @@ export const getActions: getActionsT = ({ item, handleTransText }) => {
       title: i18next.t('actions.copy'),
       icon: 'ios-copy-outline',
     },
-    {
-      key: 'TRANSLATE',
-      onPress: handleTransText,
-      title: i18next.t('actions.translate'),
-      icon: 'ios-language-outline',
-    },
+    // {
+    //   key: 'TRANSLATE',
+    //   onPress: handleTransText,
+    //   title: i18next.t('actions.translate'),
+    //   icon: 'ios-language-outline',
+    // },
     {
       key: 'DEL',
       onPress: () => {

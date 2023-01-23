@@ -43,18 +43,18 @@ export const HistoryStep = ({ item }: StepsT) => {
         <>
           <EmojiText name={getIconName('cube')} />
           <Space width={5} />
-          <Text h={'h5'} title={`${count} `} />
+          <Text h="h5" title={`${count} `} />
         </>
       )}
       {status !== 'cube' && (
         <>
           <EmojiText name={getIconName('cube')} />
           <Space width={5} />
-          <Text h={'h5'} title={`${count} => `} />
+          <Text h="h5" title={`${count} => `} />
           <EmojiText name={getIconName(status)} />
         </>
       )}
-      <Text h={'h5'} title={`=> ${t('plan')} ${plan}`} />
+      <Text h="h5" title={`=> ${t('plan')} ${plan}`} />
     </View>
   )
 }

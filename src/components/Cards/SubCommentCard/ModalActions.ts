@@ -12,7 +12,9 @@ interface getActionsProps {
   hideTranslate: boolean
 }
 
-export const getActions: getActionsT = ({ item, handleTransText, hideTranslate }) => {
+export const getActions: getActionsT = ({
+  item /*, handleTransText, hideTranslate*/,
+}) => {
   const isOwner = getUid() === item.ownerId
   const isAdmin = OnlinePlayer.store.status === 'Admin'
   const isBaned =
@@ -24,12 +26,12 @@ export const getActions: getActionsT = ({ item, handleTransText, hideTranslate }
       title: i18next.t('actions.copy'),
       icon: 'content-copy',
     },
-    {
-      key: 'TRANSLATE',
-      onPress: handleTransText,
-      title: i18next.t('actions.translate'),
-      icon: !hideTranslate ? 'translate-off' : 'translate',
-    },
+    // {
+    //   key: 'TRANSLATE',
+    //   onPress: handleTransText,
+    //   title: i18next.t('actions.translate'),
+    //   icon: !hideTranslate ? 'translate-off' : 'translate',
+    // },
     {
       key: 'DEL',
       onPress: () => {

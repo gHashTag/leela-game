@@ -7,8 +7,6 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ms, s, vs } from 'react-native-size-matters'
-import { ruOrEnLang } from 'src/i18n'
-
 import {
   Background,
   ButtonWithIcon,
@@ -17,10 +15,11 @@ import {
   SocialLinks,
   Space,
   Text,
-} from '../../../components'
-import { captureException, fuchsia } from '../../../constants'
-import { useMarkdownProps } from '../../../hooks'
-import { RootStackParamList, RootTabParamList } from '../../../types'
+} from 'src/components'
+import { captureException, fuchsia } from 'src/constants'
+import { useMarkdownProps } from 'src/hooks'
+import { ruOrEnLang } from 'src/i18n'
+import { RootStackParamList, RootTabParamList } from 'src/types'
 
 type navigation = NativeStackNavigationProp<
   RootTabParamList & RootStackParamList,

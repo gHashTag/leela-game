@@ -154,15 +154,18 @@ export const PostStore = {
     PostStore.store.loadPosts = true
     const uid = getUid()
     const isAdmin = OnlinePlayer.store.status === 'Admin'
-    const res: any[] = querySnap.docs
-      .map(a => {
-        if (a.exists) {
-          const data = a.data()
-          return data
-        }
-      })
-      .filter(a => a !== undefined)
+    const res: PostT[] = (
+      querySnap.docs
+        .map(a => {
+          if (a.exists) {
+            const data = a.data()
+            return data as PostT
+          }
+        })
+        .filter(a => a !== undefined) as PostT[]
+    )
       .filter(a => (isAdmin ? true : a?.ownerId === uid ? true : a?.accept))
+      .filter(a => (isAdmin ? true : a?.language === lang))
     if (res.length > 0) {
       PostStore.store.posts = res.sort((a, b) => b.createTime - a.createTime)
     }
@@ -180,8 +183,10 @@ export const PostStore = {
       })
       .filter(a => a !== undefined)
       .filter(a => a?.ownerId === uid)
-    if (res.length > 0) {
+    if (res.length >= 0) {
       PostStore.store.ownPosts = res.sort((a, b) => b.createTime - a.createTime)
+    } else {
+      PostStore.store.ownPosts = []
     }
     PostStore.store.loadOwnPosts = false
   },

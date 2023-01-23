@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { useHeaderHeight } from '@react-navigation/elements'
 import { KeyboardAvoidingView, StyleSheet } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { KeyboardContainerProps } from '.'
 
@@ -11,16 +9,8 @@ export const KeyboardContainer = ({
   style,
   ...props
 }: KeyboardContainerProps) => {
-  const header = useHeaderHeight()
-  const { bottom, top } = useSafeAreaInsets()
-
   return (
-    <KeyboardAvoidingView
-      behavior={'height'}
-      keyboardVerticalOffset={top + header}
-      style={[styles.flexOne, { marginBottom: bottom }, style]}
-      {...props}
-    >
+    <KeyboardAvoidingView behavior="height" style={[styles.flexOne, style]} {...props}>
       {children}
     </KeyboardAvoidingView>
   )

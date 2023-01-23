@@ -94,15 +94,15 @@ const PlansDetailScreen = observer(({ navigation, route }: PlansDetailScreenT) =
   }
 
   return (
-    <AppContainer
-      onPress={handleCross}
-      title={t(`plans:plan_${id}.title`)}
-      iconRight={null}
-      iconLeftOpacity={isReported ? 1 : 0.4}
-      iconLeft=":heavy_multiplication_x:"
-      status="1x1"
-    >
-      <KeyboardContainer>
+    <KeyboardContainer>
+      <AppContainer
+        onPress={handleCross}
+        title={t(`plans:plan_${id}.title`)}
+        iconRight={null}
+        iconLeftOpacity={isReported ? 1 : 0.4}
+        iconLeft=":heavy_multiplication_x:"
+        status="1x1"
+      >
         <ScrollView>
           <Space height={vs(10)} />
           {soundLoading ? (
@@ -128,8 +128,8 @@ const PlansDetailScreen = observer(({ navigation, route }: PlansDetailScreenT) =
           {report && <CreatePost plan={id} />}
           <Space height={!report ? vs(70) : 20} />
         </ScrollView>
-      </KeyboardContainer>
-    </AppContainer>
+      </AppContainer>
+    </KeyboardContainer>
   )
 })
 const styles = StyleSheet.create({

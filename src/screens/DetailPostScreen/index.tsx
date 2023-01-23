@@ -16,7 +16,6 @@ import {
   Space,
 } from 'src/components'
 import { captureException, lightGray } from 'src/constants'
-import { app } from 'src/context/app'
 import { getUid } from 'src/screens/helper'
 import { PostStore } from 'src/store'
 import { PostT, RootStackParamList } from 'src/types'
@@ -65,7 +64,6 @@ export const DetailPostScreen: React.FC<DetailPostI> = observer(
         }
         comment && setTimeout(newComment, 900)
         if (!curItem) {
-          app.tryLoadUserByCredentials(await app.getSecretCredentials())
           await PostStore.getOncePost()
         }
       }

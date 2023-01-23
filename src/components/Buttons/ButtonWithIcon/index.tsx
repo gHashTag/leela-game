@@ -75,8 +75,8 @@ export const ButtonWithIcon = memo<ButtonWithIconT>(
 
 const styles = ScaledSheet.create({
   container: {
-    paddingHorizontal: s(8),
-    paddingVertical: s(5),
+    paddingHorizontal: s(12),
+    paddingVertical: s(8),
     flexDirection: 'row',
     borderWidth: s(1),
     borderRadius: s(8),

@@ -21,10 +21,10 @@ export const IntentionOfGame = observer(() => {
   return (
     <GestureDetector gesture={headerGesture}>
       <View style={container}>
+        <Text title={intention ?? ''} h="h5" />
         <Space height={5} />
         <ButtonEdit viewStyle={btnEdit} onPress={handleEdit} />
         <Space height={5} />
-        <Text title={intention ?? ''} h="h5" />
       </View>
     </GestureDetector>
   )

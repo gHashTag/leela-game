@@ -35,6 +35,7 @@ export const textStyles = StyleSheet.create({
     textShadowRadius: 1,
     fontSize: Platform.OS === 'ios' ? ms(18, 0.6) : ms(18, 0.6),
   },
+
   h4: {
     fontFamily: 'Montserrat',
     textShadowRadius: 1,
@@ -74,6 +75,10 @@ export const textStyles = StyleSheet.create({
     fontSize: Platform.OS === 'ios' ? s(10) : s(10),
     fontFamily: 'OxygenMono-Regular',
   },
+  h13: {
+    fontFamily: 'Montserrat-Medium',
+    fontSize: Platform.OS === 'ios' ? ms(18, 0.6) : ms(18, 0.6),
+  },
 })
 
 export interface Icolors {
@@ -95,6 +100,7 @@ export type hT =
   | 'h10'
   | 'h11'
   | 'h12'
+  | 'h13'
 
 export interface TxtT extends TextProps {
   title: string
@@ -120,7 +126,7 @@ export const Text = memo<TxtT>(
       : text
 
     // если добавлен шрифт и у к нему не нужна тень
-    const noShadowFonts = ['h7', 'h1', 'h10', 'h12', 'h4']
+    const noShadowFonts = ['h7', 'h1', 'h10', 'h12', 'h4', 'h13']
     const hasShadow = h ? !noShadowFonts.includes(h) : false
 
     const hStyle = h

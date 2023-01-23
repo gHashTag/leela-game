@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 
 import { observer } from 'mobx-react'
 import { useTranslation } from 'react-i18next'
-import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
 import { ButtonVectorIcon, HashtagFormat, PlanAvatar, Space, Text } from 'src/components'
 import { W, brightTurquoise, fuchsia, lightGray, orange } from 'src/constants'
@@ -37,11 +37,12 @@ export const PostCard: React.FC<postCardI> = memo(
 
     const { t } = useTranslation()
 
-    const { transText, hideTranslate, handleTranslate, flag, text } = usePostTranslation({
-      translatedText,
-      isHideTranslate,
-      item,
-    })
+    const { transText, hideTranslate, /*handleTranslate, flag,*/ text } =
+      usePostTranslation({
+        translatedText,
+        isHideTranslate,
+        item,
+      })
 
     const {
       goDetail,

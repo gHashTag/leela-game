@@ -181,6 +181,7 @@ const App = () => {
         <Stack.Group
           screenOptions={{
             animation: 'slide_from_left',
+            gestureEnabled: true,
           }}
         >
           <Stack.Screen name="RULES_SCREEN" component={RulesScreen} />
@@ -191,6 +192,7 @@ const App = () => {
         <Stack.Group
           screenOptions={{
             animation: 'slide_from_right',
+            gestureEnabled: true,
           }}
         >
           <Stack.Screen name="USER_PROFILE_SCREEN" component={UserProfileScreen} />
@@ -209,6 +211,7 @@ const App = () => {
         <Stack.Screen
           options={{
             animation: 'slide_from_right',
+            gestureEnabled: true,
           }}
           name="DETAIL_POST_SCREEN"
           component={DetailPostScreen}

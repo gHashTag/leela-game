@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { observer } from 'mobx-react'
-import { Image, View } from 'react-native'
+import { ActivityIndicator, Image, View } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { runOnJS } from 'react-native-reanimated'
 import { ScaledSheet, ms } from 'react-native-size-matters'
@@ -23,10 +23,10 @@ interface dataI {
   ownerId?: string
 }
 
-const Gem = observer(({ plan, player }: GemT) => {
+export const Gem = observer(({ plan, player }: GemT) => {
   const getIndex = (num: number) => (num === player ? 2 : 1)
   const { navigate } = useTypedNavigation()
-  const { container, gems } = styles
+  const { container, gems, centered } = styles
 
   const DATA: dataI[] = !DiceStore.online
     ? OfflinePlayers.store.plans
@@ -70,14 +70,19 @@ const Gem = observer(({ plan, player }: GemT) => {
               gesture={Gesture.Tap().onTouchesUp(() => runOnJS(onPressAva)())}
               key={id}
             >
-              <Image
-                style={[
-                  gems,
-                  { zIndex: getIndex(id) },
-                  id === 1 && DiceStore.online && styles.primaryGem,
-                ]}
-                source={source(id, ava)}
-              />
+              <View style={gems}>
+                <View style={centered}>
+                  <ActivityIndicator />
+                </View>
+                <Image
+                  style={[
+                    gems,
+                    { zIndex: getIndex(id) },
+                    id === 1 && DiceStore.online && styles.primaryGem,
+                  ]}
+                  source={source(id, ava)}
+                />
+              </View>
             </GestureDetector>
           )
         } else {
@@ -94,6 +99,11 @@ const styles = ScaledSheet.create({
     justifyContent: 'center',
     zIndex: 2,
   },
+  centered: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
   gems: {
     width: ms(42, 0.5),
     height: ms(42, 0.5),
@@ -104,5 +114,3 @@ const styles = ScaledSheet.create({
     zIndex: 2,
   },
 })
-
-export { Gem }

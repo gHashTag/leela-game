@@ -2,17 +2,14 @@ import React, { useState } from 'react'
 
 import { StyleSheet, View } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
+import { ButtonVectorIcon, HashtagFormat, PlanAvatar, Space, Text } from 'src/components'
+import { OpenActionsModal, fuchsia, lightGray } from 'src/constants'
+import { useTypedNavigation } from 'src/hooks'
+import { getTimeStamp } from 'src/screens/helper'
+import { PostStore } from 'src/store'
+import { ReplyComT } from 'src/types'
 
 import { getActions } from './ModalActions'
-
-import { HashtagFormat, Space, Text } from '../../'
-import { PlanAvatar } from '../../'
-import { OpenActionsModal, fuchsia, lightGray } from '../../../constants'
-import { getTimeStamp } from '../../../screens/helper'
-import { PostStore } from '../../../store'
-import { ReplyComT } from '../../../types'
-import { ButtonVectorIcon } from '../../Buttons'
-import { useTypedNavigation } from 'src/hooks'
 
 interface SubComT {
   item: ReplyComT

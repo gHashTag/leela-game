@@ -67,11 +67,7 @@ export const ReportsScene = observer(() => {
           ListHeaderComponent={<Space height={vs(10)} />}
           ListEmptyComponent={
             <View style={page.noPostBlock}>
-              <Text
-                textStyle={page.noPostText}
-                h={'h1'}
-                title={t('online-part.noPosts')}
-              />
+              <Text textStyle={page.noPostText} h="h5" title={t('online-part.noPosts')} />
             </View>
           }
         />

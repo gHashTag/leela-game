@@ -4,9 +4,8 @@ import { useTheme } from '@react-navigation/native'
 import { Pressable, StyleSheet } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
 import Icon from 'react-native-vector-icons/Ionicons'
-
-import { Space, Text } from '../../'
-import { ButtonsModalT } from '../../../types'
+import { Space, Text } from 'src/components'
+import { ButtonsModalT } from 'src/types'
 
 interface RenderButtonsT {
   item: ButtonsModalT
